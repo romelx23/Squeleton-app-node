@@ -7,15 +7,22 @@ class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
+    // Rutas de mi aplicacion
     this.usuariosPath = "/api/usuarios";
+    this.authPath = "/api/auth";
+
     // Morgan
     this.app.use(morgan("dev"));
+
     // Conectar a base de datos
     this.conectarDB();
+
     // Midelwares
     this.middleware();
+
     // rutas de mi aplicacion
     this.routes();
+    
     // Directorio publico
     this.app.use(express.static("public"));
   }
@@ -34,7 +41,8 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.usuariosPath, require("../../src/routes/user.routes"));
+    this.app.use(this.authPath, require("../auth/auth.routes"));
+    this.app.use(this.usuariosPath, require("../user/user.routes"));
   }
 
   listen() {

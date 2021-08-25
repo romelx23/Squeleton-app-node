@@ -43,9 +43,8 @@ const UsuarioSchema = Schema({
 
 // Modificamos el json que nos devuelve mongoose
 UsuarioSchema.methods.toJSON=function(){
-  const { __v, password,...data }=this.toObject(); //eslint-disable-line
-  let usuario={id:data._id,...data};
-  delete usuario._id;
+  const { __v, password,_id,...usuario }=this.toObject(); //eslint-disable-line
+  usuario.uid=_id;
   return usuario;
 };
 
