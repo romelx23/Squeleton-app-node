@@ -29,6 +29,7 @@ const UsuarioSchema = Schema({
   rol: {
     type: String,
     required: true,
+    default: "USER_ROLE",
     enum: ["ADMIN_ROLE", "USER_ROLE"],
   },
   estado: {
@@ -42,11 +43,11 @@ const UsuarioSchema = Schema({
 });
 
 // Modificamos el json que nos devuelve mongoose
-UsuarioSchema.methods.toJSON=function(){
-  const { __v, password,_id,...usuario }=this.toObject(); //eslint-disable-line
-  usuario.uid=_id;
+UsuarioSchema.methods.toJSON = function () {
+  const { __v, password, _id, ...usuario } = this.toObject(); //eslint-disable-line
+  usuario.uid = _id;
   return usuario;
 };
 
-const Usuario= model("Usuario",UsuarioSchema);
-module.exports =Usuario;
+const Usuario = model("Usuario", UsuarioSchema);
+module.exports = Usuario;
