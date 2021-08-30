@@ -53,7 +53,7 @@ const login = async (req = request, res = response) => {
 
 const GoogleSignin = async (req = request, res = response) => {
   const { id_token } = req.body;
-  const { correo, nombre, img } = await googleVerify({id_token});
+  const { correo, nombre, img } = await googleVerify(id_token);
 
   let usuario = await Usuario.findOne({ correo });
 
@@ -88,7 +88,7 @@ const GoogleSignin = async (req = request, res = response) => {
      usuario,
      token
     });
-
+    
   } catch (error) {
     res.status(401).json({
       msg: "token de Google no es valido",

@@ -1,18 +1,25 @@
 const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("../database/connection");
-const morgan=require("morgan");
+// const morgan=require("morgan");
 
 class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
     // Rutas de mi aplicacion
-    this.usuariosPath = "/api/usuarios";
-    this.authPath = "/api/auth";
+    this.paths={
+      auth      :"/api/auth",
+      buscar      :"/api/buscar",
+      categorias:"/api/categorias",
+      productos:"/api/productos",
+      usuarios  :"/api/usuarios",
+    };
+    // this.usuariosPath = "/api/usuarios";
+    // this.authPath = "/api/auth";
 
     // Morgan
-    this.app.use(morgan("dev"));
+    // this.app.use(morgan("dev"));
 
     // Conectar a base de datos
     this.conectarDB();
@@ -41,8 +48,11 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.authPath, require("../auth/auth.routes"));
-    this.app.use(this.usuariosPath, require("../user/user.routes"));
+    this.app.use(this.paths.auth, require("../auth/auth.routes"));
+    this.app.use(this.paths.buscar, require("../buscar/buscar.routes"));
+    this.app.use(this.paths.categorias, require("../categorias/categorias.routes"));
+    this.app.use(this.paths.productos, require("../productos/producto.routes"));
+    this.app.use(this.paths.usuarios, require("../user/user.routes"));
   }
 
   listen() {
